@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/2d_flock.unity
+  isLoaded: 1
+  isActive: 1
