@@ -8,8 +8,9 @@ public class birdBoids : MonoBehaviour {
     public Vector2 location; //Current Location
     public Vector2 velocity; //Current Velocity
 
-    public Vector2 goalPosition;
-    
+    [Range(0,150)]
+    public float speed = 3;
+
 
 
     // Initialise bird with random velocity and set location variable to the current location of this GameObject
@@ -20,7 +21,8 @@ public class birdBoids : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        getGoalPosition(); //Updates the goal position based on a world object which moves
+        Vector2 goalPosition = getGoalPosition(); //Updates the goal position based on a world object which moves
+        moveTowardsGoal(goalPosition); //Function that returns nothing but moves the bird towards it's goal
         GameObject[] localBirds = getClosestBirds(); //Returns Array of closest birds within distance of 25
         avoidLocalBirds(localBirds); //Function to avoid collision with local birds
     }
@@ -28,8 +30,8 @@ public class birdBoids : MonoBehaviour {
     /*
      * Function to get the current goal position and set the global variable to this 
     */
-    void getGoalPosition(){
-        goalPosition = birdManager.transform.position;
+    Vector2 getGoalPosition(){
+        return birdManager.transform.position;
     }
 
     /*
@@ -38,13 +40,13 @@ public class birdBoids : MonoBehaviour {
     */
     GameObject[] getClosestBirds(){
 
-        GameObject[] localBirds;
+        GameObject[] localBirds = new GameObject[40];
         int counter = 0;
 
         foreach (GameObject isBirdNear in birdManager.GetComponent<animalInitialisation>().birds) {
             if (isBirdNear == this.gameObject) {
                 continue;
-            } else if (Vector2.Distance(location, isBirdNear.GetCopmonent<birdBoids>().location) < 25) { //TODO 25 is hardcoded - fix this
+            } else if (Vector2.Distance(location, isBirdNear.GetComponent<birdBoids>().location) < 25) { //TODO 25 is hardcoded - fix this
                 localBirds[counter] = isBirdNear; //Put bird which is near into array 
                 counter++; //Increment the counter
             }
@@ -57,11 +59,19 @@ public class birdBoids : MonoBehaviour {
     void avoidLocalBirds(GameObject[] localBirds){
 
         foreach (GameObject closeBird in localBirds){
-            if (Vector2.Distance(location, isBirdNear.GetCopmonent<birdBoids>().location) < 3){ //TODO - Mess around with this variable
+            if (Vector2.Distance(location, closeBird.GetComponent<birdBoids>().location) < 3){ //TODO - Mess around with this variable
                 //TODO - Avoid these brids somehow 
                 //TODO - Use quanternium slerp to move the direction of travel away from the other bird?
             }
         }
+    }
+
+    /*
+     * Function that takes the goal position and moves the bird towards this location
+    */
+    void moveTowardsGoal(Vector2 goalPosition) {
+        float step = speed * Time.deltaTime;
+        transform.position = Vector2.MoveTowards(transform.position, goalPosition, step);
     }
 }
 
@@ -73,7 +83,7 @@ public class birdBoids : MonoBehaviour {
 
 
 
-
+//TODO - Read up on this - https://docs.unity3d.com/ScriptReference/Time-deltaTime.html 
 
 
 

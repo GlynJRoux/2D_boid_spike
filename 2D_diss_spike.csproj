@@ -283,6 +283,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\animalInitialisation.cs" />
+    <Compile Include="Assets\birdBoids.cs" />
     <Compile Include="Assets\boid.cs" />
     <Compile Include="Assets\goalMovement.cs" />
   </ItemGroup>

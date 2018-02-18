@@ -30,7 +30,7 @@ public class animalInitialisation : MonoBehaviour
                                   Random.Range(-spawnRange.y, spawnRange.y),
                                   Random.Range(0, 0));
             birds[i] = Instantiate(birdPrefab, this.transform.position + birdPosition, Quaternion.identity) as GameObject;
-            birds[i].GetComponent<boid>().boidManager = this.gameObject;
+            birds[i].GetComponent<birdBoids>().birdManager = this.gameObject;
 
         }
     }
