@@ -8,9 +8,12 @@ public class birdBoids : MonoBehaviour {
     public Vector2 location; //Current Location
     public Vector2 velocity; //Current Velocity
 
-    [Range(0,150)]
-    public float speed = 3;
+    [Range(0, 150)]
+    public float rotationSpeed = 3;
 
+    public float angleComparedToWorld = 0;
+
+    private float speed = 0;
 
 
     // Initialise bird with random velocity and set location variable to the current location of this GameObject
@@ -22,6 +25,9 @@ public class birdBoids : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         Vector2 goalPosition = getGoalPosition(); //Updates the goal position based on a world object which moves
+        setLocation(); //Set variable which is the current location of the object
+        setSpeed(); //Updates the birds speed from the world instantiation script
+        setAngle(); //Updates the angle compared to (x:location.x, y:10000)
         moveTowardsGoal(goalPosition); //Function that returns nothing but moves the bird towards it's goal
         GameObject[] localBirds = getClosestBirds(); //Returns Array of closest birds within distance of 25
         avoidLocalBirds(localBirds); //Function to avoid collision with local birds
@@ -32,6 +38,30 @@ public class birdBoids : MonoBehaviour {
     */
     Vector2 getGoalPosition(){
         return birdManager.transform.position;
+    }
+
+    /*
+     * Function to return the current location of this object as a public variable 
+    */
+    void setLocation(){
+        location = this.transform.position;
+    }
+
+    /*
+     * Function to get the speed of the bird from the world instantiation script and set it for this bird
+    */
+    void setSpeed(){
+        speed = birdManager.GetComponent<animalInitialisation>().birdSpeed;
+    }
+
+    /*
+     * Function to find the angle of the bird in degrees. 
+     * 0 Will be facing upwards, 90 will be facing right. 
+     * //TODO - Probably incorrect (for debugging only so maybe it doesn't matter)
+    */
+    void setAngle(){
+        Vector2 worldAngle = new Vector2(location.x, 100000f);
+        angleComparedToWorld = Vector2.Angle(worldAngle, location);
     }
 
     /*
@@ -72,6 +102,18 @@ public class birdBoids : MonoBehaviour {
     void moveTowardsGoal(Vector2 goalPosition) {
         float step = speed * Time.deltaTime;
         transform.position = Vector2.MoveTowards(transform.position, goalPosition, step);
+
+        faceDirectionOfMovement(goalPosition);
+    }
+
+    /*
+     * Function that will make the bird face the direction which it is travelling in 
+    */
+    void faceDirectionOfMovement(Vector2 goalPosition){
+
+        var direction = goalPosition - location;
+        var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
 }
 
