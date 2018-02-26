@@ -7,7 +7,7 @@ public class birdBoids : MonoBehaviour {
     public GameObject birdManager; //World instantiation script
     public Vector2 location; //Current Location
     public Vector2 velocity; //Current Velocity
-
+    public GameObject[] twoClosestBirds;
     [Range(0, 150)]
     public float rotationSpeed = 3; //TODO - Does this do anything anymore? 
 
@@ -35,8 +35,8 @@ public class birdBoids : MonoBehaviour {
         setSpeed(); //Updates the birds speed from the world instantiation script
         setAngle(); //Updates the angle compared to (x:location.x, y:10000)
         moveTowardsGoal(); //Function that returns nothing but moves the bird towards it's goal
-       // GameObject[] localBirds = getClosestBirds(); //Returns Array of closest birds within distance of 25
-        GameObject[] twoClosestBirds = findTheTwoClosestBirds(birdManager.GetComponent<animalInitialisation>().birds); //Function to avoid collision with local birds
+        //getClosestBirds(); //Returns Array of closest birds within distance of 25
+        findTheTwoClosestBirds(birdManager.GetComponent<animalInitialisation>().birds); //Function to avoid collision with local birds
     }
 
     /*
@@ -99,15 +99,15 @@ public class birdBoids : MonoBehaviour {
     /*
      * A function that will that will find the two closest birds and returns these in an array
     */
-    GameObject[] findTheTwoClosestBirds(GameObject[] localBirds){
+    void findTheTwoClosestBirds(GameObject[] localBirds){
 
         //TODO seperate into 2 functions, one of them is find closest 2 birds. The other is make sure you do not collide with them
 
         //Variables to find the 2 closest birds
-        GameObject closestBird1 = new GameObject();
+        GameObject closestBird1 = null;
         float closestBird1Distance = 0f;
 
-        GameObject closestBird2 = new GameObject();
+        GameObject closestBird2 =  null;
         float closestBird2Distance = 0f;
 
         foreach (GameObject closeBird in localBirds){
@@ -136,7 +136,6 @@ public class birdBoids : MonoBehaviour {
                 }
             }
         }
-        GameObject[] twoClosestBirds = new GameObject[2];
         twoClosestBirds[0] = closestBird1;
         twoClosestBirds[1] = closestBird2;
         avoidTheTwoClosestBirds(twoClosestBirds);
