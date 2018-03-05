@@ -15,7 +15,8 @@ public class goalMovement : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Cursor.visible = true; 
+		Cursor.visible = true;
+        target = new GameObject();
 	}
 
 	// Update is called once per frame
