@@ -267,10 +267,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   birds: []
   birdPrefab: {fileID: 1404705255233900, guid: 4243cc1f9ae6774429b313e8218e09dc, type: 2}
-  birdCounter: 10
+  birdCounter: 5
   spawnRange: {x: 5, y: 5, z: 5}
   averageBirdLocation: {x: 0, y: 0, z: 0}
-  birdSpeed: 3
+  birdSpeed: 0.7
   neighbourDistance: 0.5
   maxForce: 1
   maxVelocity: 3
@@ -281,7 +281,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1689281363}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.13, y: 15.36, z: 0}
+  m_LocalPosition: {x: 0, y: 3.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

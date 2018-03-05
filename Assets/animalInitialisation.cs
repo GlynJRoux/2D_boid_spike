@@ -79,7 +79,7 @@ public class animalInitialisation : MonoBehaviour {
 		if((xDifferential <= 3 && xDifferential >= -3) && (yDifferential <= 3 || yDifferential >= -3)){
 			//TODO stop it from going out of 0,0 20,20 range
 
-			Vector3 randomGoalLocation = new Vector3 ((this.transform.position.x + Random.Range(-15.0f, 15.0f)), (this.transform.position.y + Random.Range (-15.0f, 15.0f)), 0);
+			Vector3 randomGoalLocation = new Vector3 ((this.transform.position.x + Random.Range(-10.0f, 10.0f)), (this.transform.position.y + Random.Range (-10.0f, 10.0f)), 0);
 
 			if (randomGoalLocation.x > 17.0f) {
 				randomGoalLocation.Set (17, randomGoalLocation.y, 0);

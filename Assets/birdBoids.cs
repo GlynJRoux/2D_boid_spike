@@ -61,44 +61,19 @@ public class birdBoids : MonoBehaviour {
      * Function to get the speed of the bird from the world instantiation script and set it for this bird
     */
     void setSpeed(){
-        speed = birdManager.GetComponent<animalInitialisation>().birdSpeed;
-        //TODO - add a VERY SLIGHT bias to this so that all of the birds are a bit different
-        //TODO - Update this intermitently because otherwise the speed would be changing forever (and have that intermitent number random (between 6 and 8 seconds)
-        //TODO - This will lead to a slight lag when updating world speed but will make bird behaviour better (look into better ways to code this in future)
+        float RandomVariation = Random.value;
+        speed = birdManager.GetComponent<animalInitialisation>().birdSpeed + RandomVariation;
+
+
     }
 
     /*
      * Function to find the angle of the bird in degrees. 
-     * 0 Will be facing upwards, 90 will be facing right. 
-     * //TODO - Probably incorrect (for debugging only so maybe it doesn't matter)
-     * //TODO - Probably need to get rid of location.x and add 100000f instead maybe?
     */
     void setAngle(){
         Vector2 worldAngle = new Vector2(location.x, 100000f);
         angleComparedToWorld = Vector2.Angle(worldAngle, location);
     }
-
-    /*
-     * Function that returns an array of the closest birds within a set distance to the current object
-     * TODO - Make it so that the distance variable is passed through to here (so that it can change for debugging)
-    */
-    //GameObject[] getClosestBirds(){
-
-        //GameObject[] localBirds = new GameObject[];
-      //  int counter = 0;
-
-        //foreach (GameObject isBirdNear in birdManager.GetComponent<animalInitialisation>().birds) {
-          //  float distance = Vector2.Distance(location, isBirdNear.transform.position);
-        //    if (isBirdNear == this.gameObject) {
-          //      continue;
-        //    } else if (distance < 10) { //TODO 25 is hardcoded - fix this
-      //          localBirds[counter] = isBirdNear; //Put bird which is near into array 
-  //              counter++; //Increment the counter
-    //        }
-//        }
-
-     //   return localBirds;
-   // }
 
     /*
      * A function that will that will find the two closest birds 
@@ -120,18 +95,20 @@ public class birdBoids : MonoBehaviour {
             float distanceBetweenObjects = Vector2.Distance(location, closeBird.GetComponent<birdBoids>().location);
 
             //If closestBird1/2 are unpopulated,populate them.
-            if (closestBird1 == null){
+            if (closestBird1 == null && closeBird != this.gameObject){
                 closestBird1 = closeBird;
                 closestBird1Distance = distanceBetweenObjects;
             }
 
-            else if (closestBird2 == null){
+            else if (closestBird2 == null && closeBird != this.gameObject)
+            {
                 closestBird2 = closeBird;
                 closestBird2Distance = distanceBetweenObjects;
             }
 
             //If closest Birds are populated but we find any that are closer, change the closest birds
-            else if (closestBird1 != null && closestBird2 != null){
+            else if (closestBird1 != null && closestBird2 != null && closeBird != this.gameObject)
+            {
                 if(distanceBetweenObjects < closestBird1Distance){
                     closestBird1 = closeBird;
                     closestBird1Distance = distanceBetweenObjects;
@@ -147,30 +124,24 @@ public class birdBoids : MonoBehaviour {
     }
 
     void avoidTheTwoClosestBirds(GameObject[] twoClosestBirds){
-        //TODO check distance and angle between yourself and two closest birds and stop from colliding
 
         Debug.Log(twoClosestBirds.Length);
         foreach (GameObject closeBird in twoClosestBirds){
+            Debug.Log("loop running");
+
             float distanceBetweenClosestBirds = Vector2.Distance(location, closeBird.GetComponent<birdBoids>().location);
-            GameObject onlyCloseBird ;
-            if (distanceBetweenClosestBirds < 0.5){
-                //TODO - If on right, turn left slightly,
-                //TODO - if on left, turn right slightly
-                //TODO - Update Move/rotate towards goal every so many seconds (not all the time)
-
-               
-                //if on left, take position of other bird and go right
-
+           
+            if (distanceBetweenClosestBirds < 1){
               
-                 onlyCloseBird = twoClosestBirds[0];
+                 GameObject onlyCloseBird = twoClosestBirds[0];
 
                 //if other bird is on left
-                if (onlyCloseBird.transform.position.x > this.location.x){
+                if (onlyCloseBird.transform.position.x < this.location.x){
                      isLeft= true;
                 }
 
                 //if other bird is on  right
-                else if (onlyCloseBird.transform.position.x < this.location.x && (!isLeft)) {
+                else if (onlyCloseBird.transform.position.x > this.location.x) {
                    isRight = true; ;
                 }
 
@@ -180,12 +151,61 @@ public class birdBoids : MonoBehaviour {
                 }
 
                 // if other bird is behind
-                else if(onlyCloseBird.transform.position.y < this.location.y && (!isTop)){
+                else if(onlyCloseBird.transform.position.y < this.location.y){
                     isBottom= true;
                 }
+               /* if (isTop && isLeft)
+                {
+                    //move towards bottom right 
+                    this.transform.position = new Vector3(transform.position.x + 1, transform.position.y - 1);
+                }
+                else if (isBottom && isLeft)
+                {
+                    // move towards top right
+                    this.transform.position = new Vector3(transform.position.x + 1, transform.position.y + 1);
+                }
+                else if (isBottom && isRight)
+                {
+                    //move to top left
+                    this.transform.position = new Vector3(transform.position.x - 1, transform.position.y + 1);
+                }
+                else if (isTop && isRight)
+                {
+                    // move towards bottom left 
+                    this.transform.position = new Vector3(transform.position.x - 1, transform.position.y - 1);
+                }
+                else if (isTop && isLeft && isRight)
+                {
+                    //move towards back 
+                    this.transform.position = new Vector3(transform.position.x, transform.position.y - 1);
+                }
+                else if (isTop && isBottom && isLeft)
+                {
+                    //move right
+                    this.transform.position = new Vector3(transform.position.x - 1, transform.position.y);
+                }
+
+                else if (isTop && isRight && isBottom)
+                {
+                    // move  left
+                    this.transform.position = new Vector3(transform.position.x + 1, transform.position.y);
+
+                }
+                else if (isBottom && isLeft && isRight)
+                {
+                    //move upwards
+                    this.transform.position = new Vector3(transform.position.x, transform.position.y + 2);
+                }
+                else
+                {
+                    // do nothing
+                }
+                */
+
 
             }
         }
+        
     }
 
     /*
@@ -202,10 +222,10 @@ public class birdBoids : MonoBehaviour {
      * Function that will make the bird face the direction which it is travelling in 
     */
     void faceDirectionOfMovement(){
-        float RandomVariation = Random.Range(-2f, 2f);
-        var direction = goalPosition - location * RandomVariation;
+        float RandomVariation = Random.value;
+        var distance = goalPosition - location * RandomVariation;
         
-        var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        var angle = Mathf.Atan2(distance.y, distance.x) * Mathf.Rad2Deg;
         
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         //TODO - OR.... change this slightly compared to goal position by -2 to 2 degrees (or something like this) and keep the goal position
