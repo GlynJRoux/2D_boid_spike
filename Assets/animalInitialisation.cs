@@ -14,7 +14,7 @@ public class animalInitialisation : MonoBehaviour {
     public float birdSpeed = 3;
 
     [Range(0,150)]
-	public double neighbourDistance = 0.5;
+	public double neighbourDistance = 1;
 
 	[Range (0,10)]
 	public float maxForce = 1f;

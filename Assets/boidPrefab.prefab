@@ -78,7 +78,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.08
+  m_Radius: 0.3
 --- !u!114 &114544758624753790
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -93,6 +93,11 @@ MonoBehaviour:
   birdManager: {fileID: 0}
   location: {x: 0, y: 0}
   velocity: {x: 0, y: 0}
+  twoClosestBirds: []
+  isLeft: 0
+  isRight: 0
+  isTop: 0
+  isBottom: 0
   rotationSpeed: 3
   angleComparedToWorld: 0
 --- !u!114 &114825210873850448
