@@ -8,7 +8,7 @@ public class animalInitialisation : MonoBehaviour
     public GameObject[] birds;
     public GameObject birdPrefab;
     public int birdCounter = 10;
-    public Vector3 spawnRange = new Vector3(5, 5, 5);
+    public Vector3 spawnRange = new Vector3(10, 10,10);
     public Vector3 averageBirdLocation;
 
     [Range(0, 150)]

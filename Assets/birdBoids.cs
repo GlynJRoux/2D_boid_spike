@@ -18,7 +18,7 @@ public class birdBoids : MonoBehaviour
     public float rotationSpeed = 3; //TODO - Does this do anything anymore? 
     public Vector2 spawnRange = new Vector3(19, 19);
     private Vector2 RandomTarget;
-
+    public float randomiseDirectionTime = 4f;
     public float angleComparedToWorld = 0;
 
     private float speed = 0;
@@ -27,8 +27,7 @@ public class birdBoids : MonoBehaviour
 
 
     // Initialise bird with random velocity and set location variable to the current location of this GameObject
-    void Start()
-    {
+    void Start(){
         location = new Vector2(this.transform.position.x, this.gameObject.transform.position.y);
         velocity = new Vector2(UnityEngine.Random.Range(0.1f, 0.01f), UnityEngine.Random.Range(0.1f, 0.01f));
 
@@ -47,13 +46,19 @@ public class birdBoids : MonoBehaviour
         findTheTwoClosestBirds(birdManager.GetComponent<animalInitialisation>().birds); //Function to avoid collision with local birds
     }
 
-    Vector3 getRandomTargetPosition()
-    {
-        Vector2 randomMove = new Vector3(UnityEngine.Random.Range(-spawnRange.x, spawnRange.x),
-                                  UnityEngine.Random.Range(-spawnRange.y, spawnRange.y));
+    Vector3 getRandomTargetPosition(){
 
+        Vector2 randomMove;
+       randomMove = new Vector3(UnityEngine.Random.Range(-spawnRange.x, spawnRange.x),
+                                      UnityEngine.Random.Range(-spawnRange.y, spawnRange.y));
+            
+      
         return randomMove;
+
     }
+
+
+  
     private void moveToRandomPosition()
     {
         float step = speed * Time.deltaTime;
