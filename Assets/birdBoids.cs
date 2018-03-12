@@ -16,7 +16,7 @@ public class birdBoids : MonoBehaviour
     public bool isBottom = false;
     [Range(0, 150)]
     public float rotationSpeed = 3; //TODO - Does this do anything anymore? 
-    public Vector2 spawnRange = new Vector3(19, 19);
+    public Vector2 spawnRange = new Vector3(35, 35);
     private Vector2 RandomTarget;
     public float randomiseDirectionTime = 4f;
     public float angleComparedToWorld = 0;
@@ -36,8 +36,7 @@ public class birdBoids : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update(){
         RandomTarget = getRandomTargetPosition();
         setLocation(); //Set variable which is the current location of the object
         setSpeed(); //Updates the birds speed from the world instantiation script
