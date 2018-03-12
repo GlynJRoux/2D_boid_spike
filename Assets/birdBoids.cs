@@ -20,6 +20,9 @@ public class birdBoids : MonoBehaviour
     private Vector2 RandomTarget;
     public float randomiseDirectionTime = 4f;
     public float angleComparedToWorld = 0;
+    double nextUsage;
+    double delay = 0.68;//two seconds delay.
+
 
     private float speed = 0;
 
@@ -28,13 +31,16 @@ public class birdBoids : MonoBehaviour
 
     // Initialise bird with random velocity and set location variable to the current location of this GameObject
     void Start(){
+        nextUsage = Time.time + delay;
         location = new Vector2(this.transform.position.x, this.gameObject.transform.position.y);
         velocity = new Vector2(UnityEngine.Random.Range(0.1f, 0.01f), UnityEngine.Random.Range(0.1f, 0.01f));
+       RandomTarget = new Vector3(UnityEngine.Random.Range(-spawnRange.x, spawnRange.x),
+                                    UnityEngine.Random.Range(-spawnRange.y, spawnRange.y));
 
 
 
     }
-
+   
     // Update is called once per frame
     void Update(){
         RandomTarget = getRandomTargetPosition();
@@ -46,19 +52,23 @@ public class birdBoids : MonoBehaviour
     }
 
     Vector3 getRandomTargetPosition(){
-
         Vector2 randomMove;
-       randomMove = new Vector3(UnityEngine.Random.Range(-spawnRange.x, spawnRange.x),
-                                      UnityEngine.Random.Range(-spawnRange.y, spawnRange.y));
-            
-      
+        if (Time.time > nextUsage) {
+            randomMove = new Vector3(UnityEngine.Random.Range(-spawnRange.x, spawnRange.x),
+                                    UnityEngine.Random.Range(-spawnRange.y, spawnRange.y));
+            nextUsage = Time.time + delay;
+        }
+        else{
+
+            randomMove= RandomTarget;
+        }
+
         return randomMove;
 
     }
 
 
-  
-    private void moveToRandomPosition()
+      private void moveToRandomPosition()
     {
         float step = speed * Time.deltaTime;
         transform.position = Vector2.MoveTowards(transform.position, RandomTarget, step);
@@ -163,43 +173,18 @@ public class birdBoids : MonoBehaviour
     void avoidTheTwoClosestBirds(GameObject[] twoClosestBirds)
     {
 
-        Debug.Log(twoClosestBirds.Length);
         foreach (GameObject closeBird in twoClosestBirds)
         {
-            Debug.Log("loop running");
+ 
 
             float distanceBetweenClosestBirds = Vector2.Distance(location, closeBird.GetComponent<birdBoids>().location);
 
             if (distanceBetweenClosestBirds < 1)
             {
-
                 GameObject onlyCloseBird = twoClosestBirds[0];
+                this.transform.rotation = onlyCloseBird.transform.rotation;
 
-                //if other bird is on left
-                if (onlyCloseBird.transform.position.x < this.location.x)
-                {
-                    isLeft = true;
-                }
-
-                //if other bird is on  right
-                else if (onlyCloseBird.transform.position.x > this.location.x)
-                {
-                    isRight = true; ;
-                }
-
-                // if other bird is above
-                if (onlyCloseBird.transform.position.y > this.location.y)
-                {
-                    isTop = true;
-                }
-
-                // if other bird is behind
-                else if (onlyCloseBird.transform.position.y < this.location.y)
-                {
-                    isBottom = true;
-                }
-
-                //might need to add code to move away 
+             
 
 
             }

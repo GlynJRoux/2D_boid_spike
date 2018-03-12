@@ -6,7 +6,7 @@ public class FoodInitialisation : MonoBehaviour
 {
     public GameObject[] allFood;
     public GameObject foodPrefab;
-    public Vector3 spawnRange = new Vector3(18, 18);
+    public Vector3 spawnRange = new Vector3(35, 35);
     public int foodCounter = 1;
     public Vector3 seenRange = new Vector3(5, 5, 5);
     public float spawnDelay = 4f;
