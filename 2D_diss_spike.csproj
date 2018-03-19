@@ -285,6 +285,7 @@
     <Compile Include="Assets\animalInitialisation.cs" />
     <Compile Include="Assets\ballInitialisation.cs" />
     <Compile Include="Assets\birdBoids.cs" />
+    <Compile Include="Assets\birdFood.cs" />
     <Compile Include="Assets\FoodInitialisation.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

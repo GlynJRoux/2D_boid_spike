@@ -8,14 +8,15 @@ public class animalInitialisation : MonoBehaviour
     public GameObject[] birds;
     public GameObject birdPrefab;
     public int birdCounter = 10;
-    public Vector3 spawnRange = new Vector3(35, 35,10);
+    public Vector3 spawnRangex = new Vector3(95, 95);
+    public Vector3 spawnRangey = new Vector3(95, 95);
     public Vector3 averageBirdLocation;
 
     [Range(0, 150)]
     public float birdSpeed = 3;
 
     [Range(0, 150)]
-    public double neighbourDistance = 1;
+    public double neighbourDistance = 2;
 
     [Range(0, 10)]
     public float maxForce = 1f;
@@ -29,8 +30,8 @@ public class animalInitialisation : MonoBehaviour
         birds = new GameObject[birdCounter];
         for (int i = 0; i < birdCounter; i++)
         {
-            Vector3 birdPosition = new Vector3(Random.Range(-spawnRange.x, spawnRange.x),
-                                  Random.Range(-spawnRange.y, spawnRange.y),
+            Vector3 birdPosition = new Vector3(Random.Range(-spawnRangex.x, spawnRangex.x),
+                                  Random.Range(-spawnRangey.y, spawnRangey.y),
                                   Random.Range(0, 0));
             birds[i] = Instantiate(birdPrefab, this.transform.position + birdPosition, Quaternion.identity) as GameObject;
             birds[i].GetComponent<birdBoids>().birdManager = this.gameObject;
