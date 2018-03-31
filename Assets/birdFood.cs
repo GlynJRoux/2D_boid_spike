@@ -3,19 +3,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class birdFood : MonoBehaviour {
+public class birdFood : MonoBehaviour
+{
     public GameObject foodManager; //World instantiation script
-    public Vector2 location; //Current Location
-    public Vector3 seenRange = new Vector3(5, 5, 5); // current range that food can be seen from 
+    public int energy;
+   
 
     // Use this for initialization
-    void Start () {
-        location = new Vector2(this.transform.position.x, this.gameObject.transform.position.y);
+    void Start()
+    {
+        energy = UnityEngine.Random.Range(1, 20);
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+
+    }
+
+
 
 }
+
+
+

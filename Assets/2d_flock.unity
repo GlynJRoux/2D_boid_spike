@@ -140,11 +140,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6765852489681545810031702a6a1a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allFood: []
+  food: {fileID: 0}
   foodPrefab: {fileID: 1951035822480024, guid: 67cfe687e0ba427408280ec1703c5a45, type: 2}
-  foodCounter: 10
   spawnRangex: {x: 95, y: 95, z: 0}
   spawnRangey: {x: 95, y: 95, z: 0}
+  foodSpawn: {x: 0, y: 0, z: 0}
 --- !u!4 &522473517
 Transform:
   m_ObjectHideFlags: 0
@@ -185,13 +185,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d29a1411e6f13f4fb50bad367a701d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  birds: []
   birdPrefab: {fileID: 1903057562679214, guid: dc7094193db404f4ab07c92dd0611537, type: 2}
-  birdCounter: 25
+  birdCounter: 50
   spawnRangex: {x: 95, y: 95, z: 0}
   spawnRangey: {x: 95, y: 95, z: 0}
   averageBirdLocation: {x: 0, y: 0, z: 0}
-  birdSpeed: 6
   neighbourDistance: 2
   maxForce: 1
   maxVelocity: 3
@@ -202,7 +200,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 888068890}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 32.582535, y: -32.543037, z: -2.7045336}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -316,6 +314,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54743e710f0ee794d859616fcd484245, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objects: []
+  circlePrefab: {fileID: 1321026361897700, guid: 30f7dba9f944d214fb77a8284dfd7618,
+    type: 2}
+  randomobjectCounter: 0
+  spawnRangex: {x: 95, y: 95, z: 0}
+  spawnRangey: {x: 95, y: 95, z: 0}
   circle: {fileID: 1321026361897700, guid: 30f7dba9f944d214fb77a8284dfd7618, type: 2}
 --- !u!4 &1866406392
 Transform:
@@ -324,7 +328,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1866406390}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 32.582535, y: -32.543037, z: -2.7045336}
+  m_LocalPosition: {x: -5.9, y: 3.47, z: -2.7045336}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

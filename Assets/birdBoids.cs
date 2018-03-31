@@ -22,58 +22,103 @@ public class birdBoids : MonoBehaviour
     double randomDouble;
     private float speed = 0;
     public float step;
-  
-
+    Vector2 foodLocation;
+    int foodSight = 5;
+    int energy = 100;
+    int energyBoost = 10;
 
 
     // Initialise bird with random velocity and set location variable to the current location of this GameObject
-    void Start(){
-        nextUsage = Time.time + delay + randomDouble;
+    void Start()
+    {
+        randomDouble = UnityEngine.Random.value;
+
         location = new Vector2(this.transform.position.x, this.gameObject.transform.position.y);
         velocity = new Vector2(UnityEngine.Random.Range(1f, 3f), UnityEngine.Random.Range(1f, 3f));
-       RandomTarget = new Vector3(UnityEngine.Random.Range(-randomRangex.x, randomRangex.x),
-                                    UnityEngine.Random.Range(-randomRangey.y, randomRangey.y));
-        delay = UnityEngine.Random.Range(0.0f, 5);
-}
-    
-    
-    // Update is called once per frame
-    void Update(){
-        RandomTarget = getRandomTargetPosition();
-        setLocation(); //Set variable which is the current location of the object
-        setSpeed(); //Updates the birds speed from the world instantiation script
-        setAngle(); //Updates the angle compared to (x:location.x, y:10000)
-        moveToRandomPosition();
-        findTheTwoClosestBirds(birdManager.GetComponent<animalInitialisation>().birds); //Function to avoid collision with local birds
-       
+        RandomTarget = new Vector3(UnityEngine.Random.Range(-randomRangex.x, randomRangex.x),
+                                     UnityEngine.Random.Range(-randomRangey.y, randomRangey.y));
+        delay = UnityEngine.Random.Range(5.0f, 15.0f);
+        nextUsage = Time.time + delay + randomDouble;
 
     }
 
-    Vector3 getRandomTargetPosition(){
+    // Update is called once per frame
+    void Update()
+    {
+//        Debug.Log(foodLocation);
+        setLocation(); //Set variable which is the current location of the object
+        checkIfEating();
+        RandomTarget = getRandomTargetPosition();
+        setSpeed(); //Updates the birds speed from the world instantiation script
+        setAngle(); //Updates the angle compared to (x:location.x, y:10000)
+        moveToRandomPosition();
+        findTheTwoClosestBirds(animalInitialisation.birds); //Function to avoid collision with local birds
+
+
+    }
+
+
+    Vector3 getRandomTargetPosition()
+    {
         Vector2 randomMove;
-        if (Time.time > nextUsage) {
+        if (Time.time > nextUsage)
+        {
             randomMove = new Vector3(UnityEngine.Random.Range(-randomRangex.x, randomRangex.x),
                                     UnityEngine.Random.Range(-randomRangey.y, randomRangey.y));
             nextUsage = Time.time + delay;
         }
-        else{
 
-            randomMove= RandomTarget;
+        else
+        {
+
+            randomMove = RandomTarget;
         }
+        int nearestFood = foodSight + 1;
+        int nearestIndex = -1;
+
+        for (int i = 0; i < FoodInitialisation.foodCounter; i++)
+        {
+            if (FoodInitialisation.foods[i] != null)
+            {
+                Vector3 foodLocation = FoodInitialisation.foods[i].transform.position;
+                int currentNearest = Math.Min(Math.Abs((int)(this.location.y - foodLocation.y)), Math.Abs((int)(this.location.x - foodLocation.x)));
+                if (currentNearest < nearestFood)
+                {
+                    nearestFood = currentNearest;
+                    nearestIndex = i;
+                }
+            }
+        }
+        if (nearestIndex >= 0)
+        {
+            randomMove = FoodInitialisation.foods[nearestIndex].transform.position;
+        }
+
+
 
         return randomMove;
 
     }
 
 
-      private void moveToRandomPosition() {
-        step = speed * Time.deltaTime ;
-        transform.position = Vector2.MoveTowards(transform.position, RandomTarget, step);
-        faceDirectionOfMovement();
+    private void moveToRandomPosition()
+    {
+        if (energy > 0)
+        {
+            Debug.Log("Energy: " + energy);
+            step = speed * Time.deltaTime;
+            transform.position = Vector2.MoveTowards(transform.position, RandomTarget, step);
+            faceDirectionOfMovement();
+            energy--;
+        } else
+        {
+            Debug.Log("Bird Died");
+        }
     }
 
-    void faceDirectionOfMovement() { 
-    
+    void faceDirectionOfMovement()
+    {
+
 
         var distance = RandomTarget - location;
         var angle = Mathf.Atan2(distance.y, distance.x) * Mathf.Rad2Deg;
@@ -91,13 +136,36 @@ public class birdBoids : MonoBehaviour
     }
 
     /*
+     * Function to check if  bird is at food
+    */
+    void checkIfEating()
+    {
+        float tolerance = 3.0f;
+
+        for (int i = 0; i < FoodInitialisation.foodCounter; i++)
+        {
+            if (FoodInitialisation.foods[i] != null)
+            {
+                //   Debug.Log("Checking food(" + i + ")");
+                Vector3 foodLocation = FoodInitialisation.foods[i].transform.position;
+                if (Vector3.Distance(location, foodLocation) < tolerance)
+                {
+                    //    Debug.Log("Bird eats food!");
+                    energy += energyBoost;
+                    Destroy(FoodInitialisation.foods[i]);
+
+                }
+            }
+        }
+    }
+
+    /*
      * Function to get the speed of the bird from the world instantiation script and set it for this bird
     */
     void setSpeed()
     {
         float RandomVariation = UnityEngine.Random.value;
-        speed = birdManager.GetComponent<animalInitialisation>().birdSpeed + RandomVariation;
-
+        speed = animalInitialisation.birdSpeed + RandomVariation;
 
     }
 
@@ -169,13 +237,14 @@ public class birdBoids : MonoBehaviour
 
         foreach (GameObject closeBird in twoClosestBirds)
         {
- 
+
 
             float distanceBetweenClosestBirds = Vector2.Distance(location, closeBird.GetComponent<birdBoids>().location);
 
-            if (distanceBetweenClosestBirds <= 0.70 ) {
-               RandomTarget = new Vector3(UnityEngine.Random.Range(-randomRangex.x, randomRangex.x),
-                                    UnityEngine.Random.Range(-randomRangey.y, randomRangey.y));
+            if (distanceBetweenClosestBirds <= 0.70)
+            {
+                RandomTarget = new Vector3(UnityEngine.Random.Range(-randomRangex.x, randomRangex.x),
+                                     UnityEngine.Random.Range(-randomRangey.y, randomRangey.y));
                 moveToRandomPosition();
 
 
@@ -186,7 +255,7 @@ public class birdBoids : MonoBehaviour
                 GameObject CloseBird1 = twoClosestBirds[0];
                 GameObject CloseBird2 = twoClosestBirds[1];
 
-                Vector3 avarageAngle = new Vector3(((CloseBird1.transform.position.x+ CloseBird2.transform.position.x+ this.transform.position.x) / 3), ((CloseBird1.transform.position.y + CloseBird2.transform.position.y + this.transform.position.y) / 3), 0);
+                Vector3 avarageAngle = new Vector3(((CloseBird1.transform.position.x + CloseBird2.transform.position.x + this.transform.position.x) / 3), ((CloseBird1.transform.position.y + CloseBird2.transform.position.y + this.transform.position.y) / 3), 0);
 
                 CloseBird1.transform.Rotate(avarageAngle);
                 CloseBird2.transform.Rotate(avarageAngle);
@@ -195,11 +264,11 @@ public class birdBoids : MonoBehaviour
 
 
             }
-               
-            }
-        }
 
-   }
+        }
+    }
+
+}
 
 
 

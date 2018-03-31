@@ -5,7 +5,7 @@ using UnityEngine;
 public class animalInitialisation : MonoBehaviour
 {
 
-    public GameObject[] birds;
+    public static GameObject[] birds;
     public GameObject birdPrefab;
     public int birdCounter = 10;
     public Vector3 spawnRangex = new Vector3(95, 95);
@@ -13,7 +13,7 @@ public class animalInitialisation : MonoBehaviour
     public Vector3 averageBirdLocation;
 
     [Range(0, 150)]
-    public float birdSpeed = 3;
+    public static float birdSpeed = 7;
 
     [Range(0, 150)]
     public double neighbourDistance = 2;
@@ -34,7 +34,7 @@ public class animalInitialisation : MonoBehaviour
                                   Random.Range(-spawnRangey.y, spawnRangey.y),
                                   Random.Range(0, 0));
             birds[i] = Instantiate(birdPrefab, this.transform.position + birdPosition, Quaternion.identity) as GameObject;
-            birds[i].GetComponent<birdBoids>().birdManager = this.gameObject;
+//            birds[i].GetComponent<birdBoids>().birdManager = this.gameObject;
 
         }
     }
@@ -50,7 +50,7 @@ public class animalInitialisation : MonoBehaviour
 
         float birdsX = 0;
         float birdsY = 0;
-        int counter = 1;
+        int counter = 0;
 
         foreach (GameObject bird in birds)
         {
@@ -68,7 +68,7 @@ public class animalInitialisation : MonoBehaviour
         //	averageBirdsY = Mathf.Abs(averageBirdsY);
         //}
         averageBirdLocation = new Vector3(averageBirdsX, averageBirdsY, 0);
-        
+
     }
 
 
