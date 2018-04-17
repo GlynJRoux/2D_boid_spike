@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 
-public class birdFood : MonoBehaviour
+public class BirdFood : MonoBehaviour
 {
-    public GameObject foodManager; //World instantiation script
     public int energy;
-   
+    public GameObject lastBird = null;
 
     // Use this for initialization
     void Start()
@@ -18,7 +15,7 @@ public class birdFood : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (energy == 0) Destroy(this.gameObject);
 
     }
 

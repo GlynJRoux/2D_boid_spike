@@ -35,7 +35,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1951035822480024}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 7.143359, y: 1.575496, z: 0}
   m_LocalScale: {x: 8, y: 8, z: 8}
   m_Children: []
   m_Father: {fileID: 0}
@@ -52,7 +52,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41c6ec3b7beb83746b23ddad0400f8f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foodManager: {fileID: 0}
+  energy: 0
+  lastBird: {fileID: 0}
 --- !u!212 &212323177460358144
 SpriteRenderer:
   m_ObjectHideFlags: 1
